@@ -7,12 +7,12 @@ import TodoItemList from './components/TodoItemList';
 class App extends Component {
   id = 3;
   state = {
-    input: '',
-    todos: [
-      { id: 0, text: ' 리액트 소개', checked: false },
-      { id: 1, text: ' ES 소개', checked: true },
-      { id: 2, text: ' Event Sourcing 소개', checked: false }
-    ]
+     input: '',
+     todos: [
+       { id: 0, text: ' 리액트 소개', checked: false },
+       { id: 1, text: ' ES 소개', checked: true },
+       { id: 2, text: ' Event Sourcing 소개', checked: false }
+     ]
   };
 
   render() {
@@ -20,22 +20,40 @@ class App extends Component {
     const {
       handleChange,
       handleCreate,
-      handleKeyPress
+      handleKeyPress,
+      handleToggle
     } = this;
 
     return (
-    <TodoListTemplates form={(
-      <Form
-      value={input}
-      onKeyPress={handleKeyPress}
-      onChange={handleChange}
-      onCreate={handleCreate}
-      />
-    )}>
-        <TodoItemList todos={todos}/>
-    </TodoListTemplates>
+      <TodoListTemplates form={(
+        <Form
+        value={input}
+        onKeyPress={handleKeyPress}
+        onChange={handleChange}
+        onCreate={handleCreate}
+        />
+      )}>
+      <TodoItemList todos={todos} onToggle={handleToggle} />
+      </TodoListTemplates>
     );
   };
+
+  handleToggle = (id) => {
+    const { todos } = this.state;
+
+    const index = todos.findIndex(todo => todo.id === id);
+    const selected = todos[index];
+    const nextTodos = [...todos];
+
+    nextTodos[index] = {
+      ...selected,
+      checked: !selected.checked
+    };
+
+    this.setState({
+      todos: nextTodos
+    });
+  }
 
   handleChange = (e) => {
     this.setState({
