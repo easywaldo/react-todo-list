@@ -9,7 +9,7 @@ class App extends Component {
   state = {
      input: '',
      todos: [
-       { id: 0, text: ' 리액트 소개', checked: false },
+       { id: 0, text: ' 리액트 소개', checked: true },
        { id: 1, text: ' ES 소개', checked: true },
        { id: 2, text: ' Event Sourcing 소개', checked: false }
      ]
@@ -21,7 +21,8 @@ class App extends Component {
       handleChange,
       handleCreate,
       handleKeyPress,
-      handleToggle
+      handleToggle,
+      handleRemove
     } = this;
 
     return (
@@ -33,7 +34,10 @@ class App extends Component {
         onCreate={handleCreate}
         />
       )}>
-      <TodoItemList todos={todos} onToggle={handleToggle} />
+      <TodoItemList
+        todos={todos} 
+        onToggle={handleToggle} 
+        onRemove={handleRemove} />
       </TodoListTemplates>
     );
   };
@@ -78,6 +82,17 @@ class App extends Component {
       this.handleCreate();
     }
   };
+
+  handleRemove = (id) => {
+    const { todos } = this.state;
+    this.setState({
+      todos: todos.filter(todo => todo.id !== id)
+    });
+  };
+
+
+
+
 
 }
 
