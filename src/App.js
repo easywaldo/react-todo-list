@@ -67,6 +67,10 @@ class App extends Component {
 
   handleCreate = (e) => {
     const { input, todos } = this.state;
+    if (input === '') {
+      alert('할일을 입력하세요');
+      return;
+    }
     this.setState({
       input: '',
       todos: todos.concat({
